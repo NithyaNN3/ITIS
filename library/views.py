@@ -1,7 +1,7 @@
 import os
-import boto3
-from django.http import HttpResponse, Http404
-from botocore.exceptions import NoCredentialsError
+# import boto3
+# from django.http import HttpResponse, Http404
+# from botocore.exceptions import NoCredentialsError
 from django.shortcuts import render
 from .models import Book
 from rest_framework.decorators import api_view, permission_classes
