@@ -9,11 +9,20 @@ def search_results(request):
     results = []
 
     if query:
-        # Assuming text files are stored in a directory named 'text_files'
-        text_files_dir = 'D:/'
-        for file_name in os.listdir(text_files_dir):
-            if file_name.endswith('.txt') and query.lower() in file_name.lower():
-                results.append(file_name)
+        s3 = boto3.client('s3')
+        bucket_name = 'libraryassignment2bucket'
+
+        # List objects in the specified S3 bucket
+        try:
+            response = s3.list_objects_v2(Bucket=bucket_name)
+            for obj in response.get('Contents', []):
+                file_name = obj['Key']
+                if file_name.endswith('.txt') and query.lower() in file_name.lower():
+                    results.append(file_name)
+        except NoCredentialsError:
+            return HttpResponse("AWS credentials not found.", status=500)
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", status=500)
 
     return render(request, 'search.html', {'results': results, 'query': query})
 
