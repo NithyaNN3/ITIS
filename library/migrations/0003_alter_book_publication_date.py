@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='book',
             name='publication_date',
-            field=models.FloatField(),
+            field=models.DateTimeField(),
         ),
     ]
