@@ -4,7 +4,7 @@ from rest_framework.parsers import JSONParser
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, PasswordSerializer
 from django.core.validators import ValidationError
 from rest_framework.authtoken.models import Token
 
@@ -34,5 +34,13 @@ def login(request):
             return Response({"error": "Invalid Credentials"}, status = status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-
-
+@api_view(['PUT'])
+@parser_classes([JSONParser])
+def password_reset(request):
+    if request.method == "PUT":
+        serializer = PasswordSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.update(None, serializer.validated_data)
+            return Response("Password updated successfully", status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
