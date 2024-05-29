@@ -23,4 +23,5 @@ urlpatterns = [
     path("api/v1/", include("library.urls")),
     path("api/v1/register", user_views.register, name = "register"),
     path("api/v1/login", user_views.login, name = "login"),
+    path("api/v1/reset-password", user_views.password_reset, name = "password_reset"),
 ]
