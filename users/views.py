@@ -1,5 +1,3 @@
-# users/views.py
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import UserRegisterForm, UserLoginForm
@@ -13,7 +11,7 @@ def register(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('home')
+            return redirect('login')  # Redirect to the login page after registration
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
@@ -27,7 +25,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('search_results')  # Redirect to the search results page after login
     else:
         form = UserLoginForm()
     return render(request, 'users/login.html', {'form': form})
