@@ -19,8 +19,7 @@ from django.urls import path, include
 from users import views as user_views
 
 urlpatterns = [
-    path("api/v1/", include("library.urls")),
-    path("api/v1/register", user_views.register, name = "register"),
-    path("api/v1/login", user_views.login, name = "login"),
-    path("api/v1/reset-password", user_views.password_reset, name = "password_reset"),
+    path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
+    path('', include('django.contrib.auth.urls')),  
 ]
