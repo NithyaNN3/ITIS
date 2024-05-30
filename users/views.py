@@ -7,17 +7,28 @@ from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer, PasswordSerializer
 from django.core.validators import ValidationError
 from rest_framework.authtoken.models import Token
+from django.http import HttpResponse, Http404
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 @api_view(['POST'])
 @parser_classes([JSONParser])
 def register(request):
-    if request.method == "POST":
-        serializer = RegisterSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
+    try:
+        if request.method == "POST":
+            serializer = RegisterSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                messages.success(request, f'Account created for {request.data.get('username')}!')
+                # return redirect('library-home')
+                return render(request, 'search.html', status=status.HTTP_200_OK)
+            else:
+                return render(request, 'users/ITIS.html', {'serializer': serializer}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+            # Handle other HTTP methods if needed
+            return render(request, 'users/ITIS.html', status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    except Exception as e:
+        return render(request, 'users/ITIS.html', {'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @api_view(['POST'])
 def login(request):
@@ -29,7 +40,10 @@ def login(request):
         print("user: ", user)
         if user is not None:
             token, _ = Token.objects.get_or_create(user = user)
-            return Response({"token": token.key}, status = status.HTTP_200_OK)
+            # return Response({"token": token.key}, status = status.HTTP_200_OK)
+            return render(request,
+                          'search.html',
+                          status = status.HTTP_200_OK)
         else:
             return Response({"error": "Invalid Credentials"}, status = status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
