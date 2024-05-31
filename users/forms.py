@@ -3,6 +3,7 @@ from django import forms
 from .models import User
 
 class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
@@ -21,6 +22,7 @@ class RegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         password = self.cleaned_data.get('password')
         user.password = hashlib.sha256(password.encode()).hexdigest()
+        print(user.password)
         if commit:
             user.save()
         return user
