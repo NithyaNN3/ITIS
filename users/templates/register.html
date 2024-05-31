@@ -1,83 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Community Library</title>
     <style>
-      body {
-          font-family: Arial, sans-serif;
-          background-color: #f8f9fa;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          margin: 0;
-      }
-      .container {
-          max-width: 400px;
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .form-signin {
-          display: flex;
-          flex-direction: column;
-      }
-      .form-signin-heading {
-          margin-bottom: 20px;
-          font-size: 1.5rem;
-      }
-      .form-control {
-          margin-bottom: 10px;
-          padding: 10px;
-          font-size: 1rem;
-          border: 1px solid #ced4da;
-          border-radius: 4px;
-      }
-      .btn {
-          padding: 10px;
-          background-color: #007bff;
-          color: #fff;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          border-radius: 4px;
-      }
-      .btn:disabled {
-          background-color: #6c757d;
-      }
-  </style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-signin {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-signin-heading {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        .btn:disabled {
+            background-color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-      <div class="container">
-        <form method="post" class="form-signin" id="registerForm">
-            {% csrf_token %}
-            <h2 class="form-signin-heading">Register</h2>
-            <label for="id_username">Username:</label>
-            {{ form.username }}
-            {{ form.username.errors }}
-            <label for="id_password">Password:</label>
-            {{ form.password }}
-            {{ form.password.errors }}
-            <label for="id_confirm_password">Confirm Password:</label>
-            {{ form.confirm_password }}
-            {{ form.confirm_password.errors }}
-            <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
-        </form>
-    </div>
+  <div class="container">
+      <form method="post" class="form-signin" id="registerForm">
+          {% csrf_token %}
+          <h2 class="form-signin-heading">Register</h2>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
+          <div class="form-group">
+              <label for="id_username" class="form-label">Username:</label>
+              {{ form.username }}
+              {{ form.username.errors }}
+          </div>
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                event.preventDefault();
-            }
-        });
-    </script>
+          <div class="form-group">
+              <label for="id_password" class="form-label">Password:</label>
+              {{ form.password }}
+              {{ form.password.errors }}
+          </div>
+
+          <div class="form-group">
+              <label for="id_confirm_password" class="form-label">Confirm Password:</label>
+              {{ form.confirm_password }}
+              {{ form.confirm_password.errors }}
+          </div>
+
+          <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+      </form>
+  </div>
+
+  <script>
+      document.getElementById('registerForm').addEventListener('submit', function(event) {
+          var password = document.getElementById('id_password').value;
+          var confirmPassword = document.getElementById('id_confirm_password').value;
+
+          if (password !== confirmPassword) {
+              alert('Passwords do not match.');
+              event.preventDefault();
+          }
+      });
+  </script>
 </body>
 </html>
