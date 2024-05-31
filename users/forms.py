@@ -22,7 +22,7 @@ class RegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         password = self.cleaned_data.get('password')
         user.password = hashlib.sha256(password.encode()).hexdigest()
-        print(user.password)
+
         if commit:
             user.save()
         return user
