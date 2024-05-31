@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from ITIS.users.forms import RegistrationForm
+from users.forms import RegistrationForm
 
 
 def login(request):
