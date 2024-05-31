@@ -4,7 +4,7 @@ from django.urls import path
 from .views import login, register, reset_password
 
 urlpatterns = [
-    path('register/', register, name='register'),
+    path('login/register/', register, name='register'),
     path('login/', login, name='login'),
-    path('reset-password/', reset_password, name='reset_password')
+    path('login/reset_password/', reset_password, name='reset_password')
 ]
