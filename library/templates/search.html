@@ -40,7 +40,7 @@
 </head>
 <body>
     <div class="search-container">
-        <form action="{% url 'search_results' %}" method="GET">
+        <form action="{% url 'library:search_results' %}" method="GET">
             <input type="text" name="q" class="search-input" placeholder="Search...">
             <button type="submit" class="search-button">Search</button>
             <a href="{% url 'upload_book' %}" class="add-button">Add</a> <!-- Add button for uploading -->
@@ -52,7 +52,7 @@
             <ul>
                 {% for result in results %}
                     <li class="result-item">
-                        <a href="{% url 'download_file' result %}">{{ result }}</a>
+                        <a href="{% url 'library:download_file' result %}">{{ result }}</a>
                     </li>
                 {% empty %}
                     <li>No results found.</li>
