@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from users.forms import RegistrationForm
+# from users.loginform import LoginForm
 
 
 def login(request):
@@ -13,7 +14,7 @@ def register(request):
         if form.is_valid():
             form.save()
             # Redirect to login page
-            return redirect(reverse('login'))
+            return redirect(reverse('users:login'))
     else:
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
