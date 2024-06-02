@@ -2,11 +2,19 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from users.forms import RegistrationForm
-# from users.loginform import LoginForm
+from users.loginform import LoginForm
 
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            return redirect('library:search_results')  
+
+    else:
+        form = LoginForm()
+
+    return render(request, 'login.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':

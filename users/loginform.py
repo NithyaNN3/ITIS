@@ -1,28 +1,25 @@
-# import hashlib
-# from django import forms
-# from .models import User
+import hashlib
+from django import forms
+from .models import User
 
-# class LoginForm(forms.ModelForm):
-#     username = forms.CharField(widget=forms.PasswordInput())
-#     confirm_password = forms.CharField(widget=forms.PasswordInput())
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput)
 
-#     class Meta:
-#         model = User
-#         fields = ['username', 'password']
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
 
-#     def valdate(self):
-#         cleaned_data = super().clean()
-#         password = cleaned_data.get('password')
-#         confirm_password = cleaned_data.get('confirm_password')
+        if username and password:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                raise forms.ValidationError("Invalid username or password")
 
-#         if password != confirm_password:
-#             raise forms.ValidationError("Passwords do not match.")
+            entered_password_hashed = hashlib.sha256(password.encode()).hexdigest()
 
-#     def save(self, commit=True):
-#         user = super().save(commit=False)
-#         password = self.cleaned_data.get('password')
-#         user.password = hashlib.sha256(password.encode()).hexdigest()
+            if user.password != entered_password_hashed:
+                raise forms.ValidationError("Invalid username or password")
 
-#         if commit:
-#             user.save()
-#         return user
+        return cleaned_data
