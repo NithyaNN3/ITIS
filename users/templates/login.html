@@ -96,7 +96,7 @@
         <div class="form-container" id="signupContainer">
             <!-- Sign Up Form -->
             <form id="signUpForm" class="form-signin">
-            <form id="signUpForm" class="form-signin" method="post" action="{% url 'register' %}">
+            <form id="signUpForm" class="form-signin" method="post" action="{% url 'users:register' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Sign Up</h2>
                 <p class="text-center" style="font-size: 1.2rem;">Sign up to explore the world of books</p>
@@ -118,7 +118,7 @@
         <div class="form-container" id="resetPassContainer">
             <!-- Password Reset Form -->
             <form id="resetPassForm" class="form-signin">
-            <form id="resetPassForm" class="form-signin" method="post" action="{% url 'reset_password' %}">
+            <form id="resetPassForm" class="form-signin" method="post" action="{% url 'users:reset_password' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Trouble logging in?</h2>
                 <p class="text-center">Enter your username and we'll send you a link to reset your password.</p>
