@@ -26,3 +26,11 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class LoginForm(forms.ModelForm):
+        username = forms.CharField(max_length=63)
+        password = forms.CharField(widget=forms.PasswordInput())
+
+        class Meta:
+            model = User
+            fields = ['username', 'password']

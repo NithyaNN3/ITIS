@@ -74,11 +74,12 @@
 
         <div class="form-container active" id="loginContainer">
             <!-- Login Form -->
-            <form id="loginForm" class="form-signin">
+            <form id="loginForm" class="form-signin" method="post">
+                {% csrf_token %}
                 <h2 class="form-signin-heading">Login</h2>
                 <input type="text" id="loginUsername" name="username" class="form-control" placeholder="Username" required autofocus>
                 <input type="password" name="password" id="loginPassword" class="form-control" placeholder="Password" required>
-                <button type="submit" id="loginButton" class="btn btn-lg btn-primary btn-block" disabled>Login</button>
+                <button type="submit" id="loginButton" class="btn btn-lg btn-primary btn-block">Login</button>
                 <div class="text-center mt-3">
                     <a href="reset-password/">Forgot password?</a>
                 </div>
