@@ -74,6 +74,7 @@
 
         <div class="form-container active" id="loginContainer">
             <!-- Login Form -->
+            <form id="loginForm" class="form-signin">
             <form id="loginForm" class="form-signin" method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Login</h2>
@@ -94,11 +95,15 @@
 
         <div class="form-container" id="signupContainer">
             <!-- Sign Up Form -->
+            <form id="signUpForm" class="form-signin">
             <form id="signUpForm" class="form-signin" method="post" action="{% url 'register' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Sign Up</h2>
                 <p class="text-center" style="font-size: 1.2rem;">Sign up to explore the world of books</p>
                 <input type="text" id="signUpUsername" name="username" class="form-control" placeholder="Username" required>
+                <input type="email" id="signUpemail" name="Email" class="form-control" placeholder="Email" required>
+                <input type="text" id="fname" name="First Name" class="form-control" placeholder="First Name" required>
+                <input type="text" name="Last Name" id="lname" class="form-control" placeholder="Last Name" required>
                 <input type="email" id="signUpemail" name="email" class="form-control" placeholder="Email" required>
                 <input type="text" id="fname" name="first_name" class="form-control" placeholder="First Name" required>
                 <input type="text" name="last_name" id="lname" class="form-control" placeholder="Last Name" required>
@@ -112,6 +117,7 @@
 
         <div class="form-container" id="resetPassContainer">
             <!-- Password Reset Form -->
+            <form id="resetPassForm" class="form-signin">
             <form id="resetPassForm" class="form-signin" method="post" action="{% url 'reset_password' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Trouble logging in?</h2>
@@ -123,6 +129,7 @@
                 <span>OR</span>
             </div>
             <div class="text-center mt-3">
+                <p>Can't reset your password? <a href="register/">Create new account</a></p>
                 <p>Can't reset your password? <a href="{% url 'users:register' %}">Create new account</a></p>
                 <p><a href="#" id="showLoginFromReset">Back to login</a></p>
             </div>
@@ -138,21 +145,41 @@
             const loginButton = document.getElementById('loginButton');
             const signUpButton = document.getElementById('signUpButton');
             const resetButton = document.getElementById('resetButton');
-
+    
             // Enable/disable login button based on form validity
             loginForm.addEventListener('input', function() {
-                loginButton.disabled = !loginForm.checkValidity();
+                loginButton.disabled = !loginFormHasValue();
             });
-
+    
             // Enable/disable sign up button based on form validity
             signUpForm.addEventListener('input', function() {
-                signUpButton.disabled = !signUpForm.checkValidity();
+                signUpButton.disabled = !signUpFormHasValue();
             });
-
+    
             // Enable/disable reset button based on form validity
             resetPassForm.addEventListener('input', function() {
-                resetButton.disabled = !resetPassForm.checkValidity();
+                resetButton.disabled = !resetPassFormHasValue();
             });
+    
+            // Function to check if login form has any value
+            function loginFormHasValue() {
+                return loginForm.querySelector('input[name="username"]').value.trim() !== '' ||
+                       loginForm.querySelector('input[name="password"]').value.trim() !== '';
+            }
+    
+            // Function to check if sign up form has any value
+            function signUpFormHasValue() {
+                return signUpForm.querySelector('input[name="username"]').value.trim() !== '' ||
+                       signUpForm.querySelector('input[name="password"]').value.trim() !== '' ||
+                       signUpForm.querySelector('input[name="Email"]').value.trim() !== '' ||
+                       signUpForm.querySelector('input[name="First Name"]').value.trim() !== '' ||
+                       signUpForm.querySelector('input[name="Last Name"]').value.trim() !== '';
+            }
+    
+            // Function to check if reset password form has any value
+            function resetPassFormHasValue() {
+                return resetPassForm.querySelector('input[name="username"]').value.trim() !== '';
+            }
         });
     </script>
 </body>
