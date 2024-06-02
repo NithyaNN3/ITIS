@@ -22,4 +22,5 @@ app_name = 'users'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include(('users.urls', 'users'))),  
+    path('library/', include('library.urls', namespace='library')),
 ]
