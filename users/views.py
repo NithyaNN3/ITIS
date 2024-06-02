@@ -12,8 +12,8 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-             # Redirect to library app's search endpoint
-            return redirect(reverse('search/'))
+            # Redirect to login page
+            return redirect(reverse('login'))
     else:
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
