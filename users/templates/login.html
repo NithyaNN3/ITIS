@@ -74,7 +74,6 @@
 
         <div class="form-container active" id="loginContainer">
             <!-- Login Form -->
-            <form id="loginForm" class="form-signin">
             <form id="loginForm" class="form-signin" method="post" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Login</h2>
@@ -95,7 +94,6 @@
 
         <div class="form-container" id="signupContainer">
             <!-- Sign Up Form -->
-            <form id="signUpForm" class="form-signin">
             <form id="signUpForm" class="form-signin" method="post" action="{% url 'users:register' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Sign Up</h2>
@@ -117,7 +115,6 @@
 
         <div class="form-container" id="resetPassContainer">
             <!-- Password Reset Form -->
-            <form id="resetPassForm" class="form-signin">
             <form id="resetPassForm" class="form-signin" method="post" action="{% url 'users:reset_password' %}">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Trouble logging in?</h2>
