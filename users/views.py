@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from users.forms import RegistrationForm
 
@@ -11,7 +12,8 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login/')  
+             # Redirect to library app's search endpoint
+            return redirect(reverse('search/'))
     else:
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
