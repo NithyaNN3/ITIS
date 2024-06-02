@@ -12,15 +12,14 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = User.objects.get(username=username)
-        user_password = user.password
-        passwd = hashlib.sha256(user_password.decode()).hexdigest()
+        user = User.objects.filter(username=username)
+        hashed_password = hash_password(password)
         # user = authenticate(
         #     username=request.POST.get('username'),
         #     password=request.POST.get('password'),
         # )
         # print("hashed_password: ", hashed_password)
-        if passwd == password:
+        if user is not None and hashed_password == user.password:
             login(request, user)
             # message = f'Hello {user.username}! You have been logged in'
             return redirect('search') 
