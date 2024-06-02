@@ -18,9 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 
-app_name = 'users'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include(('users.urls', 'users'))),  
-    path('library/', include('library.urls', namespace='library')),
+    path('library/', include(('library.urls', 'library'))),
 ]
