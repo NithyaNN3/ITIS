@@ -43,7 +43,6 @@
         <form action="{% url 'library:search_results' %}" method="GET">
             <input type="text" name="q" class="search-input" placeholder="Search...">
             <button type="submit" class="search-button">Search</button>
-            <a href="{% url 'upload_book' %}" class="add-button">Add</a> <!-- Add button for uploading -->
         </form>
     </div>
     <div class="results-container">
@@ -61,6 +60,15 @@
         {% else %}
             <p>Please enter a search query.</p>
         {% endif %}
+    </div>
+
+    <div class="upload-container">
+        <!-- Upload form -->
+        <form action="{% url 'library:upload_book' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file">
+            <button type="submit" class="add-button">Upload</button>
+        </form>
     </div>
 </body>
 </html>

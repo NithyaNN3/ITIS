@@ -50,16 +50,16 @@ def download_file(request, file_name):
         return HttpResponse(f"Error: {str(e)}", status=500)
     
 def upload_book(request):
-    # method for uploading books
     if request.method == 'POST' and request.FILES.get('file'):
         file_obj = request.FILES['file']
+        
+        # Upload the file to S3 bucket
         s3 = boto3.client('s3')
         bucket_name = 'libraryassignment2bucket'
         try:
-            # Upload the file to S3
             s3.upload_fileobj(file_obj, bucket_name, file_obj.name)
             return HttpResponse("Book uploaded successfully.")
         except Exception as e:
             return HttpResponse(f"Error: {str(e)}", status=500)
 
-    return render(request, 'upload.html')
+    return render(request, 'search.html')
