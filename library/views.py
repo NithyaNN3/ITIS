@@ -1,4 +1,3 @@
-import os
 import boto3
 from django.http import HttpResponse, Http404
 from botocore.exceptions import NoCredentialsError
@@ -8,56 +7,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime, timezone
 
-# # Handles traffic from the homepage
-# def home(request):
-#     context = {
-#         "books": Book.objects.all()
-#     }
-#     return render(request, "library/home.html", context)
-
-# def about(request):
-#     return render(request, "library/about.html", {"title": "About"})
-
-
-# # List all books in the library
-# @api_view(["GET", "POST"])
-# def list_book(request):
-#     if request.method == "GET":
-#         books = Book.objects.all()
-#         serializer = BookSerializer(books, many = True)
-#         return Response(serializer.data)
-
-# # Add a new book to the library
-# @api_view(["POST"])
-# def add_book(request):
-#     if request.method == "POST":
-#         request.data["date_added"] = datetime.now(timezone.utc).timestamp()
-#         serializer = BookSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status = status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-# # Common method to retrieve, update or delete a book
-# @api_view(["GET", "PUT", "DELETE"])
-# def book_detail(request, pk):
-#     try:
-#         book = Book.objects.get(pk = pk)
-#     except Book.DoesNotExist:
-#         return Response(status = status.HTTP_404_NOT_FOUND)
-#     if request.method == "GET":
-#         serializer = BookSerializer(book)
-#         return Response(serializer.data)
-#     elif request.method == "PUT":
-#         serializer = BookSerializer(book, data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status = status.HTTP_201_CREATED)
-#     elif request.method == "DELETE":
-#         check = book.delete()
-#         if check == 1:
-#             return Response(serializer.data, status = status.HTTP_204_NO_CONTENT)
-#     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     
 def search_results(request):
     query = request.GET.get('q')
@@ -99,3 +48,18 @@ def download_file(request, file_name):
         return HttpResponse("AWS credentials not found.", status=500)
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}", status=500)
+    
+def upload_book(request):
+    # method for uploading books
+    if request.method == 'POST' and request.FILES.get('file'):
+        file_obj = request.FILES['file']
+        s3 = boto3.client('s3')
+        bucket_name = 'libraryassignment2bucket'
+        try:
+            # Upload the file to S3
+            s3.upload_fileobj(file_obj, bucket_name, file_obj.name)
+            return HttpResponse("Book uploaded successfully.")
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", status=500)
+
+    return render(request, 'upload.html')
