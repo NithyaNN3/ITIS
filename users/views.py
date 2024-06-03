@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from users.models import User
 from users.forms import RegistrationForm
 from users.loginform import LoginForm
 
@@ -28,4 +29,26 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def reset_password(request):
-    return render(request, 'reset_password.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        new_password = request.POST.get('newPassword')
+        confirm_new_password = request.POST.get('confirmNewPassword')
+
+        if new_password != confirm_new_password:
+            return render(request, 'reset_password.html', {
+                'error_message': 'Passwords do not match.'
+            })
+
+        try:
+            user = User.objects.get(username=username)
+            user.set_password(new_password)  # Use the set_password method to hash the password
+            user.save()
+            return render(request, 'reset_password.html', {
+                'success_message': 'Password reset successfully.'
+            })
+        except User.DoesNotExist:
+            return render(request, 'reset_password.html', {
+                'error_message': 'User does not exist.'
+            })
+    else:
+        return render(request, 'reset_password.html')
