@@ -81,7 +81,7 @@
                 <input type="password" name="password" id="loginPassword" class="form-control" placeholder="Password" required>
                 <button type="submit" id="loginButton" class="btn btn-lg btn-primary btn-block" disabled>Login</button>
                 <div class="text-center mt-3">
-                    <a href="reset-password/">Forgot password?</a>
+                    <a href="{% url 'users:reset_password' %}">Forgot password?</a>
                 </div>
                 <div class="or-divider">
                     <span>OR</span>
